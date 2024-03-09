@@ -1,4 +1,10 @@
 using Auctions.Data;
+using Auctions.Data.Repositories.Bids;
+using Auctions.Data.Repositories.Comments;
+using Auctions.Data.Repositories.Listings;
+using Auctions.Services.Bids;
+using Auctions.Services.Comments;
+using Auctions.Services.Listings;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +23,16 @@ IConfigurationRoot config = new ConfigurationBuilder()
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContextPool<DataContext>(options => 
     options.UseSqlServer(connectionString));
+
+//Repositories
+builder.Services.AddScoped<IListingsRepository,ListingsRepository>();
+builder.Services.AddScoped<ICommentsRepository,CommentsRepository>();
+builder.Services.AddScoped<IBidsRepository,BidsRepository>();
+
+//Services
+builder.Services.AddScoped<IListingsService,ListingsService>();
+builder.Services.AddScoped<ICommentsService,CommentsService>();
+builder.Services.AddScoped<IBidsService,BidsService>();
 
 var app = builder.Build();
 
