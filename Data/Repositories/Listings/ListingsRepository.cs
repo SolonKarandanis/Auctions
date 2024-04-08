@@ -30,5 +30,20 @@ namespace Auctions.Data.Repositories.Listings
             await context.DisposeAsync();
             GC.SuppressFinalize(this);
         }
+
+        public async Task<IEnumerable<Listing>> FindIndexPageListings(int pageNumber, int pageSize, string searchString)
+        {
+            var efQuery = context.Listings.Where(l => l.IsSold == false);
+            if(!string.IsNullOrEmpty(searchString)){
+                dbSet.Where(a => a.Title.Contains(searchString));
+            }
+            var page = pageNumber -1;
+            var skippedElements = page * pageSize;
+            return efQuery
+                .Skip(skippedElements)
+                .OrderBy(x => x.Id)
+                .Take(pageSize)
+                .AsNoTracking();
+        }
     }
 }

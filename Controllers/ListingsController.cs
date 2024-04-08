@@ -34,9 +34,10 @@ namespace Auctions.Controllers
             this.commentsService = commentsService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageNumber,int pageSize, string searchString)
         {
-            return View();
+            var listinings = await listingsService.FindIndexPageListings(pageNumber,pageSize,searchString);
+            return View(listinings);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

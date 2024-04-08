@@ -30,5 +30,10 @@ namespace Auctions.Services.Listings
         {
             return await listingsRepository.FindById(id);
         }
+
+        public async  Task<IEnumerable<Listing>> FindIndexPageListings(int pageNumber,int pageSize, string searchString)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

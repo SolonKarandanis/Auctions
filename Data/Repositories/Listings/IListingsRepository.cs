@@ -9,5 +9,7 @@ namespace Auctions.Data.Repositories.Listings
     public interface IListingsRepository: IRepository<Listing>
     {
         new Task<Listing?> FindById(int id);
+
+        Task<IEnumerable<Listing>> FindIndexPageListings(int pageNumber,int pageSize, string searchString);
     }
 }

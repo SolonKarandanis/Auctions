@@ -10,6 +10,8 @@ namespace Auctions.Services.Listings
     {
         Task<IEnumerable<Listing>> FindAll();
 
+        Task<IEnumerable<Listing>> FindIndexPageListings(int pageNumber,int pageSize , string searchString);
+
         Task<int> Create(Listing entity);
 
         Task<Listing?> FindById(int id);
