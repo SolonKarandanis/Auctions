@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Auctions.Services.Bids;
 using Auctions.Services.Comments;
@@ -38,6 +39,13 @@ namespace Auctions.Controllers
         {
             var listinings = await listingsService.FindIndexPageListings(pageNumber,pageSize,searchString);
             return View(listinings);
+        }
+
+        public async Task<IActionResult> MyListings(int pageNumber,int pageSize)
+        {
+            var userId= User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var listinings = await listingsService.FindMyListings(pageNumber,pageSize,userId);
+            return View("Index",listinings);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
