@@ -33,7 +33,12 @@ namespace Auctions.Services.Listings
 
         public async  Task<IEnumerable<Listing>> FindIndexPageListings(int pageNumber,int pageSize, string searchString)
         {
-            throw new NotImplementedException();
+            return await listingsRepository.FindListingsByTitle(pageNumber, pageSize,searchString);
+        }
+
+        public async Task<IEnumerable<Listing>> FindMyListings(int pageNumber, int pageSize, string userId)
+        {
+            return await listingsRepository.FindByUserId(pageNumber,pageSize,userId);
         }
     }
 }

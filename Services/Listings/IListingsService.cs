@@ -12,6 +12,8 @@ namespace Auctions.Services.Listings
 
         Task<IEnumerable<Listing>> FindIndexPageListings(int pageNumber,int pageSize , string searchString);
 
+        Task<IEnumerable<Listing>> FindMyListings(int pageNumber,int pageSize, string userId);
+
         Task<int> Create(Listing entity);
 
         Task<Listing?> FindById(int id);
