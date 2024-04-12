@@ -48,6 +48,13 @@ namespace Auctions.Controllers
             return View("Index",listinings);
         }
 
+        public async Task<IActionResult> MyBids(int pageNumber,int pageSize)
+        {
+            var userId= User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var myBids = await bidsService.FindMyBids(pageNumber,pageSize,userId);
+            return View(myBids);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

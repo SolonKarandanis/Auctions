@@ -11,5 +11,7 @@ namespace Auctions.Services.Bids
         Task<int> Create(Bid entity);
 
         Task<IEnumerable<Bid>> FindAll();
+
+        Task<IEnumerable<Bid>> FindMyBids(int pageNumber,int pageSize, string userId);
     }
 }

@@ -25,5 +25,10 @@ namespace Auctions.Services.Bids
         {
             return await bidsRepository.FindAll();
         }
+
+        public async Task<IEnumerable<Bid>> FindMyBids(int pageNumber, int pageSize, string userId)
+        {
+            return await bidsRepository.FindByUserId(pageNumber,pageSize,userId);
+        }
     }
 }

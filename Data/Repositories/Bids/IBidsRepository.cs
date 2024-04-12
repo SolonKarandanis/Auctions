@@ -8,6 +8,6 @@ namespace Auctions.Data.Repositories.Bids
 {
     public interface IBidsRepository: IRepository<Bid>
     {
-        
+        Task<IEnumerable<Bid>> FindByUserId(int pageNumber,int pageSize, string userId);
     }
 }
