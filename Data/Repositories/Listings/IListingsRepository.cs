@@ -10,6 +10,8 @@ namespace Auctions.Data.Repositories.Listings
     {
         new Task<Listing?> FindById(int id);
 
-        Task<IEnumerable<Listing>> FindIndexPageListings(int pageNumber,int pageSize, string searchString);
+        Task<IEnumerable<Listing>> FindListingsByTitle(int pageNumber,int pageSize, string searchString);
+
+        Task<IEnumerable<Listing>> FindByUserId(int pageNumber,int pageSize, string userId);
     }
 }

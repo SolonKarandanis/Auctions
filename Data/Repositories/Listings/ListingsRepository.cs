@@ -31,7 +31,7 @@ namespace Auctions.Data.Repositories.Listings
             GC.SuppressFinalize(this);
         }
 
-        public async Task<IEnumerable<Listing>> FindIndexPageListings(int pageNumber, int pageSize, string searchString)
+        public async Task<IEnumerable<Listing>> FindListingsByTitle(int pageNumber, int pageSize, string searchString)
         {
             var efQuery = context.Listings.Where(l => l.IsSold == false);
             if(!string.IsNullOrEmpty(searchString)){
@@ -39,11 +39,25 @@ namespace Auctions.Data.Repositories.Listings
             }
             var page = pageNumber -1;
             var skippedElements = page * pageSize;
-            return efQuery
+            return await efQuery
                 .Skip(skippedElements)
                 .OrderBy(x => x.Id)
                 .Take(pageSize)
-                .AsNoTracking();
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Listing>> FindByUserId(int pageNumber, int pageSize, string userId)
+        {
+            var efQuery = context.Listings.Where(l=> l.IdentityUserId== userId);
+            var page = pageNumber -1;
+            var skippedElements = page * pageSize;
+            return await efQuery
+                .Skip(skippedElements)
+                .OrderBy(x => x.Id)
+                .Take(pageSize)
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }
