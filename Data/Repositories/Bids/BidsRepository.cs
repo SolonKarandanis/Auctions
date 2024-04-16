@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Auctions.Dtos.Web;
 using Auctions.Models;
 using Microsoft.EntityFrameworkCore;
 using Rpg.Data.Repositories;
@@ -23,17 +24,24 @@ namespace Auctions.Data.Repositories.Bids
             GC.SuppressFinalize(this);
         }
 
-        public async Task<IEnumerable<Bid>> FindByUserId(int pageNumber, int pageSize, string userId)
+        public async Task<PageResponse<Bid>> FindByUserId(Paging paging, string userId)
         {
             var efQuery = context.Bids.Where(b=> b.IdentityUserId== userId);
-            var page = pageNumber -1;
+            var page = paging.Page -1;
+            var pageSize = paging.Size;
             var skippedElements = page * pageSize;
-            return await efQuery
+
+            var totalNumber = await efQuery.CountAsync();
+            var pageCount = (totalNumber + page)/ paging.Page;
+
+            var result =  await efQuery
                 .Skip(skippedElements)
                 .OrderBy(x => x.Id)
                 .Take(pageSize)
                 .AsNoTracking()
                 .ToListAsync();
+
+            return new PageResponse<Bid>(result,totalNumber,pageCount);
         }
     }
 }
