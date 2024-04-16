@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Auctions.Dtos.Web;
 using Auctions.Models;
 using Microsoft.EntityFrameworkCore;
 using Rpg.Data.Repositories;
@@ -31,33 +32,46 @@ namespace Auctions.Data.Repositories.Listings
             GC.SuppressFinalize(this);
         }
 
-        public async Task<IEnumerable<Listing>> FindListingsByTitle(int pageNumber, int pageSize, string searchString)
+        public async Task<PageResponse<Listing>> FindListingsByTitle(Paging paging, string searchString)
         {
             var efQuery = context.Listings.Where(l => l.IsSold == false);
             if(!string.IsNullOrEmpty(searchString)){
                 dbSet.Where(a => a.Title.Contains(searchString));
             }
-            var page = pageNumber -1;
+            var page = paging.Page -1;
+            var pageSize = paging.Size;
             var skippedElements = page * pageSize;
-            return await efQuery
+
+            var totalNumber = await efQuery.CountAsync();
+            var pageCount = (totalNumber + page)/ paging.Page;
+
+            var result = await efQuery
                 .Skip(skippedElements)
                 .OrderBy(x => x.Id)
                 .Take(pageSize)
                 .AsNoTracking()
                 .ToListAsync();
+            
+            return new PageResponse<Listing>(result,totalNumber,pageCount);
         }
 
-        public async Task<IEnumerable<Listing>> FindByUserId(int pageNumber, int pageSize, string userId)
+        public async Task<PageResponse<Listing>> FindByUserId(Paging paging, string userId)
         {
             var efQuery = context.Listings.Where(l=> l.IdentityUserId== userId);
-            var page = pageNumber -1;
+            var page = paging.Page -1;
+            var pageSize = paging.Size;
             var skippedElements = page * pageSize;
-            return await efQuery
+
+            var totalNumber = await efQuery.CountAsync();
+            var pageCount = (totalNumber + page)/ paging.Page;
+
+            var result = await efQuery
                 .Skip(skippedElements)
                 .OrderBy(x => x.Id)
                 .Take(pageSize)
                 .AsNoTracking()
                 .ToListAsync();
+            return new PageResponse<Listing>(result,totalNumber,pageCount);
         }
     }
 }

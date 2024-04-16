@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Auctions.Data.Repositories.Listings;
+using Auctions.Dtos.Web;
 using Auctions.Models;
 
 namespace Auctions.Services.Listings
@@ -31,14 +32,14 @@ namespace Auctions.Services.Listings
             return await listingsRepository.FindById(id);
         }
 
-        public async  Task<IEnumerable<Listing>> FindIndexPageListings(int pageNumber,int pageSize, string searchString)
+        public async  Task<PageResponse<Listing>> FindIndexPageListings(Paging paging, string searchString)
         {
-            return await listingsRepository.FindListingsByTitle(pageNumber, pageSize,searchString);
+            return await listingsRepository.FindListingsByTitle(paging,searchString);
         }
 
-        public async Task<IEnumerable<Listing>> FindMyListings(int pageNumber, int pageSize, string userId)
+        public async Task<PageResponse<Listing>> FindMyListings(Paging paging, string userId)
         {
-            return await listingsRepository.FindByUserId(pageNumber,pageSize,userId);
+            return await listingsRepository.FindByUserId(paging,userId);
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Auctions.Dtos.Web;
 using Auctions.Models;
 
 namespace Auctions.Services.Listings
@@ -10,9 +11,9 @@ namespace Auctions.Services.Listings
     {
         Task<IEnumerable<Listing>> FindAll();
 
-        Task<IEnumerable<Listing>> FindIndexPageListings(int pageNumber,int pageSize , string searchString);
+        Task<PageResponse<Listing>> FindIndexPageListings(Paging paging, string searchString);
 
-        Task<IEnumerable<Listing>> FindMyListings(int pageNumber,int pageSize, string userId);
+        Task<PageResponse<Listing>> FindMyListings(Paging paging, string userId);
 
         Task<int> Create(Listing entity);
 
