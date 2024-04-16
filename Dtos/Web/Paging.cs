@@ -7,6 +7,10 @@ namespace Auctions.Dtos.Web
 {
     public class Paging
     {
+        public Paging(int Page,int Size){
+            this.Page=Page;
+            this.Size=Size;
+        }
         public Paging(int Page,int Size,string SortField,string SortOrder){
             this.Page=Page;
             this.Size=Size;
