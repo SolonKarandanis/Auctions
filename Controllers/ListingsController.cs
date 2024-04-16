@@ -53,8 +53,9 @@ namespace Auctions.Controllers
 
         public async Task<IActionResult> MyBids(int pageNumber,int pageSize)
         {
+            Paging paging = new Paging(pageNumber,pageSize);
             var userId= User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var myBids = await bidsService.FindMyBids(pageNumber,pageSize,userId);
+            var myBids = await bidsService.FindMyBids(paging,userId);
             return View(myBids);
         }
 

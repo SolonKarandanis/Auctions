@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Auctions.Data.Repositories.Bids;
+using Auctions.Dtos.Web;
 using Auctions.Models;
 
 namespace Auctions.Services.Bids
@@ -26,9 +27,9 @@ namespace Auctions.Services.Bids
             return await bidsRepository.FindAll();
         }
 
-        public async Task<IEnumerable<Bid>> FindMyBids(int pageNumber, int pageSize, string userId)
+        public async Task<PageResponse<Bid>> FindMyBids(Paging paging, string userId)
         {
-            return await bidsRepository.FindByUserId(pageNumber,pageSize,userId);
+            return await bidsRepository.FindByUserId(paging,userId);
         }
     }
 }

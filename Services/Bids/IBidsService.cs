@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Auctions.Dtos.Web;
 using Auctions.Models;
 
 namespace Auctions.Services.Bids
@@ -12,6 +13,6 @@ namespace Auctions.Services.Bids
 
         Task<IEnumerable<Bid>> FindAll();
 
-        Task<IEnumerable<Bid>> FindMyBids(int pageNumber,int pageSize, string userId);
+        Task<PageResponse<Bid>> FindMyBids(Paging paging, string userId);
     }
 }
