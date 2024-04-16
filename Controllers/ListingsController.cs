@@ -59,6 +59,22 @@ namespace Auctions.Controllers
             return View(myBids);
         }
 
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (!id.HasValue)
+            {
+                return NotFound();
+            }
+            var listing = await listingsService.FindById(id.Value);
+
+            if (listing == null)
+            {
+                return NotFound();
+            }
+
+            return View(listing);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
